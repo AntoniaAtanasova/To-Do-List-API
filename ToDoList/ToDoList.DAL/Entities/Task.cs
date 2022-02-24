@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ToDoList.DAL.Entities
 {
-    public class Task
+    public class Task : Entity
     {
         public Task()
         {
@@ -21,6 +21,8 @@ namespace ToDoList.DAL.Entities
         public string Description { get; set; }
 
         public bool IsComplete { get; set; }
+
+        public DayType Day { get; set; }
 
         public virtual ICollection<User> Users { get; set; }
     }

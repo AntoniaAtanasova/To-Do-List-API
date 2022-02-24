@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNet.Identity.EntityFramework;
+﻿using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 namespace ToDoList.DAL.Entities
@@ -12,6 +12,10 @@ namespace ToDoList.DAL.Entities
             ToDoLists = new HashSet<ToDoList>();
             Tasks = new HashSet<Task>();
         }
+
+        public string FirstName { get; set; }
+
+        public string LastName { get; set; }
 
         public DateTime CreatedAt { get; set; }
 
