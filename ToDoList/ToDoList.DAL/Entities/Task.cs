@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace ToDoList.DAL.Entities
@@ -21,6 +22,8 @@ namespace ToDoList.DAL.Entities
         public string Description { get; set; }
 
         public bool IsComplete { get; set; }
+
+        public DateTime Date { get; set; }
 
         public DayType Day { get; set; }
 

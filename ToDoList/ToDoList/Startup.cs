@@ -9,9 +9,13 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
+using ToDoList.BLL.Interfaces;
+using ToDoList.BLL.Services;
 using ToDoList.Common;
 using ToDoList.DAL;
 using ToDoList.DAL.Entities;
+using ToDoList.DAL.Repositories;
+using ToDoList.DAL.Repositories.Interfaces;
 using ToDoList.DAL.Seeding;
 using ToDoList.Web.Authentication;
 
@@ -74,6 +78,11 @@ namespace ToDoList
             })
                 .AddRoles<IdentityRole>()
                     .AddEntityFrameworkStores<DatabaseContext>();
+
+            services.AddTransient<IUserManager, AppUserManager>();
+            services.AddTransient<IHolidayRepository, HolidayRepository>();
+            services.AddTransient<ITaskRepository, TaskRepository>();
+            services.AddTransient<IToDoListRepository,ToDoListRepository>();
 
             services.AddHttpClient(Constants.HolidayApiClientName, c => c.BaseAddress = new Uri(Configuration["HolidaysApiUrl"]));
 
