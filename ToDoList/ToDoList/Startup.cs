@@ -85,6 +85,7 @@ namespace ToDoList
                                   .AddInMemoryClients(IdentityConfig.Clients);
 
             builder.AddDeveloperSigningCredential();
+            builder.AddResourceOwnerValidator<PasswordValidator>();
 
             services
                 .AddAuthentication(options =>
