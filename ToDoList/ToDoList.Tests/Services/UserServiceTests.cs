@@ -16,6 +16,8 @@ namespace ToDoList.Tests.Services
         private readonly Mock<IUserManager> userManagerMock;
         private readonly UserService sut;
         private User validUser;
+        private User invalidNameUser;
+        private User invalidEmailUser;
         private List<User> _users;
 
         public UserServiceTests()
@@ -37,6 +39,18 @@ namespace ToDoList.Tests.Services
         public async System.Threading.Tasks.Task Create_ShouldThrowException_WithInvalidRole()
         {
             await Assert.ThrowsAsync<ToDoListException>(() => sut.Create(validUser, "password", "Invalid"));
+        }
+
+        [Fact]
+        public async System.Threading.Tasks.Task Create_ShouldThrowException_WithTakenUsername()
+        {
+            await Assert.ThrowsAsync<ToDoListException>(() => sut.Create(invalidNameUser, "password", "Admin"));
+        }
+
+        [Fact]
+        public async System.Threading.Tasks.Task Create_ShouldThrowException_WithTakenEmail()
+        {
+            await Assert.ThrowsAsync<ToDoListException>(() => sut.Create(invalidEmailUser, "password", "Admin"));
         }
 
         [Fact]
@@ -114,7 +128,10 @@ namespace ToDoList.Tests.Services
 
         private void SetUp()
         {
-            validUser = new User { FirstName = "Test", LastName = "User", UserName = "validUser", Email = "userTest@todolistapp.com" };
+            validUser = new User { FirstName = "Test4", LastName = "User4", UserName = "validUser4", Email = "userTest4@todolistapp.com" };
+            invalidNameUser = new User { FirstName = "Test5", LastName = "User5", UserName = "validUser1", Email = "userTest5@todolistapp.com" };
+            invalidEmailUser = new User { FirstName = "Test6", LastName = "User6", UserName = "validUser6", Email = "userTest1@todolistapp.com" };
+
             _users = new List<User>()
             {
                 new User { Id = "1", FirstName = "Test1", LastName = "User1", UserName = "validUser1", Email = "userTest1@todolistapp.com" },
@@ -141,7 +158,7 @@ namespace ToDoList.Tests.Services
             userManagerMock.Setup(x => x.GetAllUsersAsync()).Returns(System.Threading.Tasks.Task.FromResult(_users));
 
             userManagerMock.Setup(x => x.FindByNameAsync("validUser1")).Returns(System.Threading.Tasks.Task.FromResult(_users[0]));
-            userManagerMock.Setup(x => x.FindByNameAsync("validUser2")).Returns(System.Threading.Tasks.Task.FromResult(_users[1]));
+            userManagerMock.Setup(x => x.FindByEmailAsync("userTest1@todolistapp.com")).Returns(System.Threading.Tasks.Task.FromResult(_users[0]));
         }
     }
 }
