@@ -61,7 +61,7 @@ namespace ToDoList.BLL.Services
 
         public async System.Threading.Tasks.Task RemoveRoleFromUser(User user, string role)
         {
-            await this.RemoveFromRoleAsync(user, role);
+            await RemoveFromRoleAsync(user, role);
         }
     }
 }

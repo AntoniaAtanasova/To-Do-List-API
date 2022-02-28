@@ -7,6 +7,10 @@ namespace ToDoList.BLL.Interfaces
     {
         public Task<List<DAL.Entities.Task>> GetAll();
 
+        public Task<List<DAL.Entities.Task>> GetMy();
+
+        public Task<List<DAL.Entities.Task>> GetMyForDate();
+
         public Task<DAL.Entities.Task> GetById(int id);
 
         public Task<bool> Create(DAL.Entities.Task task);

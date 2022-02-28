@@ -36,5 +36,15 @@ namespace ToDoList.BLL.Services
         {
             throw new NotImplementedException();
         }
+
+        public Task<List<DAL.Entities.Task>> GetMy()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<DAL.Entities.Task>> GetMyForDate()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

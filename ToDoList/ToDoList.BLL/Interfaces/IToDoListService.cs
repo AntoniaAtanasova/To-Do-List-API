@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using ToDoList.DAL.Entities;
 
 namespace ToDoList.BLL.Interfaces
 {
     public interface IToDoListService
     {
-        public Task<List<DAL.Entities.ToDoList>> GetMy();
+        public Task<List<DAL.Entities.ToDoList>> GetAll();
 
-        public Task<List<DAL.Entities.ToDoList>> GetShared();
+        public Task<List<DAL.Entities.ToDoList>> GetMy(User user);
 
         public Task<DAL.Entities.ToDoList> GetById(int id);
 

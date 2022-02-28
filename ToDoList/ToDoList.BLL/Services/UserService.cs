@@ -9,6 +9,13 @@ namespace ToDoList.BLL.Services
 {
     public class UserService : IUserService
     {
+        private readonly IUserManager _userManager;
+
+        public UserService(IUserManager userManager)
+        {
+            _userManager = userManager;
+        }
+
         public System.Threading.Tasks.Task Create(User userToCreate, string password, string role)
         {
             throw new NotImplementedException();
