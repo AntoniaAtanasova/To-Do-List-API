@@ -10,7 +10,9 @@
         public const int NotFound = 404;
         public const int InternalServerError = 500;
 
+        public const string UserNameNotAvailable = "Username {0} not available!";
         public const string UserNotFound = "User not found!";
         public const string UserRoleNotValid = "User role not valid!";
+        public const string EmailAlreadyInUse = "The email address you want to register is already taken!";
     }
 }
