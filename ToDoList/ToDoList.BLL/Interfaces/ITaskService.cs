@@ -17,7 +17,7 @@ namespace ToDoList.BLL.Interfaces
 
         public Task<bool> Delete(int id);
 
-        public Task<bool> Edit(int id);
+        public Task<bool> Edit(int id, DAL.Entities.Task newTask);
 
         public Task<bool> Assign(int taskId, string userId);
     }

@@ -11,9 +11,9 @@ namespace ToDoList.DAL.Repositories.Interfaces
     {
         public Task<bool> Create(Entities.ToDoList list);
 
-        public Task<bool> Edit(int listId, Entities.ToDoList newList, string userId);
+        public Task<bool> Edit(Entities.ToDoList listToEdit, Entities.ToDoList newList, string userId);
 
-        public Task<bool> Delete(int id);
+        public Task<bool> Delete(Entities.ToDoList list);
 
         public Task<Entities.ToDoList> GetById(int id);
 
@@ -22,6 +22,8 @@ namespace ToDoList.DAL.Repositories.Interfaces
         public Task<List<Entities.ToDoList>> GetMy(User loggedIn);
 
         public Task<bool> Share(int listId, string userId);
+
+        public Task<bool> IsSharedWithUser(int listId, string userId);
 
         public Task<bool> IsListNameTaken(string title, User loggedin);
     }

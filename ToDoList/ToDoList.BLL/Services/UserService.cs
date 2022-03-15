@@ -94,7 +94,7 @@ namespace ToDoList.BLL.Services
             return await _userManager.IsInRoleAsync(user, role);
         }
 
-        public async System.Threading.Tasks.Task Update(string userId, User newUserData, string role)
+        public async System.Threading.Tasks.Task Edit(string userId, User newUserData, string role)
         {
             User user = await GetById(userId);
 

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -25,24 +26,20 @@ namespace ToDoList.DAL.Repositories
             return true;
         }
 
-        public async Task<bool> Delete(int id)
+        public async Task<bool> Delete(Entities.ToDoList list)
         {
-            var list = await GetById(id);
-
             _databaseContext.ToDoLists.Remove(list);
             await _databaseContext.SaveChangesAsync();
 
             return true;
         }
 
-        public async Task<bool> Edit(int listId, Entities.ToDoList newList, string userId)
+        public async Task<bool> Edit(Entities.ToDoList listToEdit, Entities.ToDoList newList, string userId)
         {
-            var list = await GetById(listId);
+            listToEdit.Title = newList.Title;
+            listToEdit.LastModifiedBy = userId;
+            listToEdit.LastModifiedAt = DateTime.Now;
 
-            list.Title = newList.Title;
-            list.LastModifiedBy = userId;
-
-            _databaseContext.Update(list);
             await _databaseContext.SaveChangesAsync();
 
             return true;
@@ -69,6 +66,11 @@ namespace ToDoList.DAL.Repositories
             var lists = await GetMy(loggedin);
 
             return lists.Any(l => l.Title == title);
+        }
+
+        public async Task<bool> IsSharedWithUser(int listId, string userId)
+        {
+            return await _databaseContext.SharedToDoLists.AnyAsync(tl => tl.UserId == userId && tl.ToDoListId == listId);
         }
 
         public async Task<bool> Share(int listId, string userId)

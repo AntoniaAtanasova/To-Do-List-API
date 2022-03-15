@@ -22,7 +22,7 @@ namespace ToDoList.BLL.Services
             throw new NotImplementedException();
         }
 
-        public Task<bool> Edit(int id)
+        public Task<bool> Edit(int id, DAL.Entities.Task newTask)
         {
             throw new NotImplementedException();
         }

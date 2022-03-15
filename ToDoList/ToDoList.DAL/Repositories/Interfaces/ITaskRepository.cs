@@ -9,9 +9,9 @@ namespace ToDoList.DAL.Repositories.Interfaces
     {
         public Task<bool> Create(Entities.Task task);
 
-        public Task<bool> Edit(int taskId, Entities.Task newTask, string userId);
+        public Task<bool> Edit(Entities.Task taskToEdit, Entities.Task newTask, string userId);
 
-        public Task<bool> Delete(int taskId);
+        public Task<bool> Delete(Entities.Task task);
 
         public Task<Entities.Task> GetById(int taskId);
 
@@ -21,9 +21,11 @@ namespace ToDoList.DAL.Repositories.Interfaces
 
         public Task<List<Entities.Task>> GetMyForDate(DateTime date, User loggedIn);
 
-        public Task<bool> Complete(int taskId);
+        public Task<bool> Complete(Entities.Task task);
 
         public Task<bool> Assign(int taskId, string userId);
+
+        public Task<bool> IsAssignedToUser(int taskId, string userId);
 
         public Task<bool> IsTaskNameTaken(string title, User loggedin);
     }

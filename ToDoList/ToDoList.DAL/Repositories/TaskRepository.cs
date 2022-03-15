@@ -17,9 +17,8 @@ namespace ToDoList.DAL.Repositories
             _databaseContext = databaseContext;
         }
 
-        public async Task<bool> Complete(int id)
+        public async Task<bool> Complete(Entities.Task task)
         {
-            var task = await GetById(id);
             task.IsComplete = true;
 
             _databaseContext.Update(task);
@@ -36,26 +35,22 @@ namespace ToDoList.DAL.Repositories
             return true;
         }
 
-        public async Task<bool> Delete(int id)
+        public async Task<bool> Delete(Entities.Task task)
         {
-            var task = await GetById(id);
-
             _databaseContext.Tasks.Remove(task);
             await _databaseContext.SaveChangesAsync();
 
             return true;
         }
 
-        public async Task<bool> Edit(int id, Entities.Task newTask, string userId)
+        public async Task<bool> Edit(Entities.Task taskToEdit, Entities.Task newTask, string userId)
         {
-            var task = await GetById(id);
+            taskToEdit.Title = newTask.Title;
+            taskToEdit.Description = newTask.Description;
+            taskToEdit.LastModifiedBy = userId;
+            taskToEdit.LastModifiedAt = DateTime.Now;
+            taskToEdit.Date = newTask.Date;
 
-            task.Title = newTask.Title;
-            task.Description = newTask.Description;
-            task.LastModifiedBy = userId;
-            task.Date = newTask.Date;
-
-            _databaseContext.Update(task);
             await _databaseContext.SaveChangesAsync();
 
             return true;
@@ -99,6 +94,11 @@ namespace ToDoList.DAL.Repositories
             await _databaseContext.SaveChangesAsync();
 
             return true;
+        }
+
+        public async Task<bool> IsAssignedToUser(int taskId, string userId)
+        {
+            return await _databaseContext.AssignedTasks.AnyAsync(at => at.UserId == userId && at.TaskId == taskId);
         }
     }
 }

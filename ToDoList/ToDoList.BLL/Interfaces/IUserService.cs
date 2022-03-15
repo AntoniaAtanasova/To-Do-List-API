@@ -20,7 +20,7 @@ namespace ToDoList.BLL.Interfaces
 
         public System.Threading.Tasks.Task Create(User userToCreate, string password, string role);
 
-        public System.Threading.Tasks.Task Update(string userId, User newUserData, string role);
+        public System.Threading.Tasks.Task Edit(string userId, User newUserData, string role);
 
         public System.Threading.Tasks.Task Delete(string userId);
     }

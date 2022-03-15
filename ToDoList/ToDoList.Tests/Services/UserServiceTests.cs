@@ -18,7 +18,7 @@ namespace ToDoList.Tests.Services
         private User validUser;
         private User invalidNameUser;
         private User invalidEmailUser;
-        private List<User> _users;
+        private List<User> users;
 
         public UserServiceTests()
         {
@@ -32,7 +32,7 @@ namespace ToDoList.Tests.Services
         {
             await sut.Create(validUser, "password", "Admin");
 
-            Assert.Equal(4, _users.Count);
+            Assert.Equal(4, users.Count);
         }
 
         [Fact]
@@ -54,7 +54,7 @@ namespace ToDoList.Tests.Services
         }
 
         [Fact]
-        public async System.Threading.Tasks.Task Update_ShouldSuccees_WithValidParams()
+        public async System.Threading.Tasks.Task Edit_ShouldSuccees_WithValidParams()
         {
             User user = new User
             {
@@ -64,12 +64,12 @@ namespace ToDoList.Tests.Services
                 Email = "userTest22@todolistapp.com"
             };
 
-            await sut.Update("2", user, "User");
+            await sut.Edit("2", user, "User");
 
-            Assert.Equal(user.UserName, _users[1].UserName);
-            Assert.Equal(user.FirstName, _users[1].FirstName);
-            Assert.Equal(user.LastName, _users[1].LastName);
-            Assert.Equal(user.Email, _users[1].Email);
+            Assert.Equal(user.UserName, users[1].UserName);
+            Assert.Equal(user.FirstName, users[1].FirstName);
+            Assert.Equal(user.LastName, users[1].LastName);
+            Assert.Equal(user.Email, users[1].Email);
         }
 
         [Fact]
@@ -77,7 +77,7 @@ namespace ToDoList.Tests.Services
         {
             await sut.Delete("3");
 
-            Assert.True(_users.All(u => u.Id != "3"));
+            Assert.True(users.All(u => u.Id != "3"));
         }
 
         [Fact]
@@ -91,7 +91,7 @@ namespace ToDoList.Tests.Services
         {
             var result = await sut.GetById("1");
 
-            Assert.Equal(_users[0], result);
+            Assert.Equal(users[0], result);
         }
 
         [Fact]
@@ -105,7 +105,7 @@ namespace ToDoList.Tests.Services
         {
             var result = await sut.GetAll();
 
-            Assert.Equal(_users, result);
+            Assert.Equal(users, result);
         }
 
         [Fact]
@@ -132,33 +132,33 @@ namespace ToDoList.Tests.Services
             invalidNameUser = new User { FirstName = "Test5", LastName = "User5", UserName = "validUser1", Email = "userTest5@todolistapp.com" };
             invalidEmailUser = new User { FirstName = "Test6", LastName = "User6", UserName = "validUser6", Email = "userTest1@todolistapp.com" };
 
-            _users = new List<User>()
+            users = new List<User>()
             {
                 new User { Id = "1", FirstName = "Test1", LastName = "User1", UserName = "validUser1", Email = "userTest1@todolistapp.com" },
                 new User { Id = "2", FirstName = "Test2", LastName = "User2", UserName = "validUser2", Email = "userTest2@todolistapp.com" },
                 new User { Id = "3", FirstName = "Test3", LastName = "User3", UserName = "validUser3", Email = "userTest3@todolistapp.com" }
             };
 
-            userManagerMock.Setup(x => x.DeleteAsync(It.IsAny<User>())).ReturnsAsync(IdentityResult.Success).Callback<User>((u) => _users.Remove(u));
-            userManagerMock.Setup(x => x.CreateAsync(It.IsAny<User>(), It.IsAny<string>())).ReturnsAsync(IdentityResult.Success).Callback<User, string>((u, p) => _users.Add(u));
+            userManagerMock.Setup(x => x.DeleteAsync(It.IsAny<User>())).ReturnsAsync(IdentityResult.Success).Callback<User>((u) => users.Remove(u));
+            userManagerMock.Setup(x => x.CreateAsync(It.IsAny<User>(), It.IsAny<string>())).ReturnsAsync(IdentityResult.Success).Callback<User, string>((u, p) => users.Add(u));
             userManagerMock.Setup(x => x.UpdateAsync(It.IsAny<User>())).ReturnsAsync(IdentityResult.Success).Callback<User>((u) =>
             {
-                int positionInList = _users.FindIndex(existingUser => existingUser.Id == u.Id);
+                int positionInList = users.FindIndex(existingUser => existingUser.Id == u.Id);
 
-                _users[positionInList].UserName = u.UserName;
-                _users[positionInList].FirstName = u.FirstName;
-                _users[positionInList].LastName = u.LastName;
-                _users[positionInList].Email = u.Email;
+                users[positionInList].UserName = u.UserName;
+                users[positionInList].FirstName = u.FirstName;
+                users[positionInList].LastName = u.LastName;
+                users[positionInList].Email = u.Email;
             });
 
-            userManagerMock.Setup(x => x.FindByIdAsync("1")).Returns(System.Threading.Tasks.Task.FromResult(_users[0]));
-            userManagerMock.Setup(x => x.FindByIdAsync("2")).Returns(System.Threading.Tasks.Task.FromResult(_users[1]));
-            userManagerMock.Setup(x => x.FindByIdAsync("3")).Returns(System.Threading.Tasks.Task.FromResult(_users[2]));
+            userManagerMock.Setup(x => x.FindByIdAsync("1")).Returns(System.Threading.Tasks.Task.FromResult(users[0]));
+            userManagerMock.Setup(x => x.FindByIdAsync("2")).Returns(System.Threading.Tasks.Task.FromResult(users[1]));
+            userManagerMock.Setup(x => x.FindByIdAsync("3")).Returns(System.Threading.Tasks.Task.FromResult(users[2]));
 
-            userManagerMock.Setup(x => x.GetAllUsersAsync()).Returns(System.Threading.Tasks.Task.FromResult(_users));
+            userManagerMock.Setup(x => x.GetAllUsersAsync()).Returns(System.Threading.Tasks.Task.FromResult(users));
 
-            userManagerMock.Setup(x => x.FindByNameAsync("validUser1")).Returns(System.Threading.Tasks.Task.FromResult(_users[0]));
-            userManagerMock.Setup(x => x.FindByEmailAsync("userTest1@todolistapp.com")).Returns(System.Threading.Tasks.Task.FromResult(_users[0]));
+            userManagerMock.Setup(x => x.FindByNameAsync("validUser1")).Returns(System.Threading.Tasks.Task.FromResult(users[0]));
+            userManagerMock.Setup(x => x.FindByEmailAsync("userTest1@todolistapp.com")).Returns(System.Threading.Tasks.Task.FromResult(users[0]));
         }
     }
 }
