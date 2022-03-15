@@ -27,7 +27,7 @@ namespace ToDoList.Tests.Services
         [Fact]
         public async Task Create_ShouldCallRepository_WithValidName()
         {
-            await sut.Create(validList);
+            await sut.Create(validList, validUser);
 
             repoMock.Verify(mock => mock.Create(It.Is<DAL.Entities.ToDoList>(l => l.Id == 1)),
                 Times.Once);
@@ -36,7 +36,7 @@ namespace ToDoList.Tests.Services
         [Fact]
         public async Task Create_ShouldThrowException_WithTakenName()
         {
-            await Assert.ThrowsAsync<ToDoListException>(() => sut.Create(invalidNameList));
+            await Assert.ThrowsAsync<ToDoListException>(() => sut.Create(invalidNameList, validUser));
         }
 
         [Fact]
@@ -47,10 +47,10 @@ namespace ToDoList.Tests.Services
                 Title = "Test"
             };
 
-            await sut.Edit(1, newList);
+            await sut.Edit(validList.Id, newList, validUser.Id);
 
             repoMock.Verify(mock =>
-                mock.Edit(It.Is<DAL.Entities.ToDoList>(l => l.Id == 1), newList, validUser.Id),
+                mock.Edit(It.Is<DAL.Entities.ToDoList>(l => l.Id == 1), newList, "asd"),
                 Times.Once);
         }
 
