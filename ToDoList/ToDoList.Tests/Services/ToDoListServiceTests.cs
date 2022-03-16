@@ -21,6 +21,7 @@ namespace ToDoList.Tests.Services
         {
             repoMock = new Mock<IToDoListRepository>();
             sut = new ToDoListService(repoMock.Object);
+
             SetUp();
         }
 

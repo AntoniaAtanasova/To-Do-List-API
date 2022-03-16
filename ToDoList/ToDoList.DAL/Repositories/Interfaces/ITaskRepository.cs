@@ -19,7 +19,7 @@ namespace ToDoList.DAL.Repositories.Interfaces
 
         public Task<List<Entities.Task>> GetMy(User loggedIn);
 
-        public Task<List<Entities.Task>> GetMyForDate(DateTime date, User loggedIn);
+        public Task<List<Entities.Task>> GetMyForDate(User loggedIn, DateTime date);
 
         public Task<bool> Complete(Entities.Task task);
 

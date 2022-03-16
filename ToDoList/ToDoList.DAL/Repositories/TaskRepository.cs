@@ -71,7 +71,7 @@ namespace ToDoList.DAL.Repositories
             return await _databaseContext.Tasks.ToListAsync();
         }
 
-        public async Task<List<Entities.Task>> GetMyForDate(DateTime date, Entities.User loggedIn)
+        public async Task<List<Entities.Task>> GetMyForDate(Entities.User loggedIn, DateTime date)
         {
             var tasks = await GetMy(loggedIn);
             return tasks.Where(t => t.Date == date).ToList();

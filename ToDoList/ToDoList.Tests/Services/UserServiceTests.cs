@@ -24,6 +24,7 @@ namespace ToDoList.Tests.Services
         {
             userManagerMock = new Mock<IUserManager>();
             sut = new UserService(userManagerMock.Object);
+
             SetUp();
         }
 

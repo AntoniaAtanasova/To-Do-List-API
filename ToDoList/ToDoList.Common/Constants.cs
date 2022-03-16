@@ -16,5 +16,8 @@
         public const string EmailAlreadyInUse = "The email address you want to register is already taken!";
         public const string ListTitleTaken = "List title {0} not available!";
         public const string ListNotFound = "To-do list not found!";
+        public const string TaskTitleTaken = "Task title {0} not available!";
+        public const string TaskAlreadyAssigned = "Task {0} is already assigned!";
+        public const string TaskNotFound = "Task not found!";
     }
 }
