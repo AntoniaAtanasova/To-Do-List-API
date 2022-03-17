@@ -17,6 +17,7 @@ using ToDoList.DAL.Entities;
 using ToDoList.DAL.Repositories;
 using ToDoList.DAL.Repositories.Interfaces;
 using ToDoList.DAL.Seeding;
+using ToDoList.Web;
 using ToDoList.Web.Authentication;
 
 namespace ToDoList
@@ -83,6 +84,9 @@ namespace ToDoList
             services.AddTransient<IHolidayRepository, HolidayRepository>();
             services.AddTransient<ITaskRepository, TaskRepository>();
             services.AddTransient<IToDoListRepository,ToDoListRepository>();
+            services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IToDoListService, ToDoListService>();
+            services.AddTransient<ITaskService, TaskService>();
 
             services.AddHttpClient(Constants.HolidayApiClientName, c => c.BaseAddress = new Uri(Configuration["HolidaysApiUrl"]));
 
@@ -126,6 +130,8 @@ namespace ToDoList
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseMiddleware<GlobalExceptionHandler>();
 
             app.UseAuthentication();
 
