@@ -9,6 +9,7 @@ namespace ToDoList.DAL.Entities
         public Task()
         {
             Users = new HashSet<User>();
+            IsComplete = false;
         }
 
         [Required]

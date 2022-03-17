@@ -17,7 +17,7 @@ namespace ToDoList.DAL.Entities
 
         public string LastName { get; set; }
 
-        public DateTime CreatedAt { get; set; }
+        public DateTime CreatedAt { get; private set; }
 
         public virtual ICollection<ToDoList> ToDoLists { get; set; }
 

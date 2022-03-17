@@ -23,7 +23,7 @@ namespace ToDoList.DAL.Entities
 
         public string LastModifiedBy { get; set; }
 
-        public DateTime CreatedAt { get; }
+        public DateTime CreatedAt { get; private set; }
 
         public DateTime LastModifiedAt { get; set; }
     }
