@@ -77,7 +77,7 @@ namespace ToDoList
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireUppercase = false;
             })
-                .AddRoles<IdentityRole>()
+                    .AddRoles<IdentityRole>()
                     .AddEntityFrameworkStores<DatabaseContext>();
 
             services.AddTransient<IUserManager, AppUserManager>();
@@ -101,6 +101,7 @@ namespace ToDoList
             builder.AddResourceOwnerValidator<PasswordValidator>();
 
             services
+                .AddAuthorization()
                 .AddAuthentication(options =>
                 {
                     options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -127,14 +128,11 @@ namespace ToDoList
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ToDoList v1"));
             }
 
+            app.UseIdentityServer();
             app.UseHttpsRedirection();
-
             app.UseRouting();
-
             app.UseMiddleware<GlobalExceptionHandler>();
-
             app.UseAuthentication();
-
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

@@ -11,14 +11,14 @@ namespace ToDoList.Web.Authentication
             {
                 new Client
                 {
-                    ClientId = "vacationsystem",
+                    ClientId = "todolistapi",
                     AllowOfflineAccess = true,
                     AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
                     ClientSecrets =
                     {
                         new Secret("secret".Sha256())
                     },
-                    AllowedScopes = { "users", "offline_access", "vacationsystem", "roles" }
+                    AllowedScopes = { "users", "offline_access", "todolistapi", "roles" }
                 }
             };
 
@@ -34,7 +34,7 @@ namespace ToDoList.Web.Authentication
             {
                     new ApiScope("users", "My API", new string[]{ ClaimTypes.Name, ClaimTypes.Role }),
                     new ApiScope("offline_access", "RefereshToken"),
-                    new ApiScope("vacationsystem", "app")
+                    new ApiScope("todolistapi", "app")
             };
     }
 }
