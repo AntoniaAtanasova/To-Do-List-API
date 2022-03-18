@@ -96,9 +96,9 @@ namespace ToDoList.BLL.Services
             return await _taskRepo.Edit(task, newTask, userId);
         }
 
-        public Task<List<DAL.Entities.Task>> GetAll()
+        public Task<List<DAL.Entities.Task>> GetAllForList(int listId)
         {
-            return _taskRepo.GetAll();
+            return _taskRepo.GetAllForList(listId);
         }
 
         public async Task<DAL.Entities.Task> GetById(int id)
@@ -113,9 +113,9 @@ namespace ToDoList.BLL.Services
             return task;
         }
 
-        public Task<List<DAL.Entities.Task>> GetMy(User user)
+        public Task<List<DAL.Entities.Task>> GetAllMy(User user)
         {
-            return _taskRepo.GetMy(user);
+            return _taskRepo.GetAllMy(user);
         }
 
         public Task<List<DAL.Entities.Task>> GetMyForDate(User user, DateTime date)

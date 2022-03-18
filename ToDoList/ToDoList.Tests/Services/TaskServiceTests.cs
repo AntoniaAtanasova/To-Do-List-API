@@ -16,6 +16,7 @@ namespace ToDoList.Tests.Services
         private readonly TaskService sut;
         private List<Holiday> holidays;
         private List<Task> tasks;
+        private DAL.Entities.ToDoList validList;
         private Task validTask;
         private Task invalidNameTask;
         private User validUser;
@@ -102,13 +103,14 @@ namespace ToDoList.Tests.Services
         [Fact]
         public async System.Threading.Tasks.Task GetAll_ShouldReturnRepositoryCollection()
         {
-            var result = await sut.GetAll();
+            var result = await sut.GetAllForList(1);
 
             Assert.Equal(tasks, result);
         }
 
         private void SetUp()
         {
+            validList = new DAL.Entities.ToDoList { Title = "validName", Id = 1 };
             validTask = new Task { Title = "validName", Date = new DateTime(2022, 01, 03), Id = 1 };
             invalidNameTask = new Task { Title = "invalidName", Id = 2 };
             validUser = new User { Id = "asd", UserName = "testuser", Email = "testuseremail" };
@@ -126,7 +128,7 @@ namespace ToDoList.Tests.Services
             taskRepoMock.Setup(repo => repo.IsAssignedToUser(validTask.Id, validUser.Id)).ReturnsAsync(false);
             taskRepoMock.Setup(repo => repo.GetById(validTask.Id)).ReturnsAsync(validTask);
             taskRepoMock.Setup(repo => repo.GetById(2)).Equals(null);
-            taskRepoMock.Setup(repo => repo.GetAll()).ReturnsAsync(tasks);
+            taskRepoMock.Setup(repo => repo.GetAllForList(validList.Id)).ReturnsAsync(tasks);
         }
     }
 }

@@ -15,9 +15,9 @@ namespace ToDoList.DAL.Repositories.Interfaces
 
         public Task<Entities.Task> GetById(int taskId);
 
-        public Task<List<Entities.Task>> GetAll();
+        public Task<List<Entities.Task>> GetAllForList(int listId);
 
-        public Task<List<Entities.Task>> GetMy(User loggedIn);
+        public Task<List<Entities.Task>> GetAllMy(User loggedIn);
 
         public Task<List<Entities.Task>> GetMyForDate(User loggedIn, DateTime date);
 

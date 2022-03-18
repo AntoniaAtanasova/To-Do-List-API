@@ -7,9 +7,9 @@ namespace ToDoList.BLL.Interfaces
 {
     public interface ITaskService
     {
-        public Task<List<DAL.Entities.Task>> GetAll();
+        public Task<List<DAL.Entities.Task>> GetAllForList(int listId);
 
-        public Task<List<DAL.Entities.Task>> GetMy(User user);
+        public Task<List<DAL.Entities.Task>> GetAllMy(User user);
 
         public Task<List<DAL.Entities.Task>> GetMyForDate(User user, DateTime date);
 
@@ -22,7 +22,6 @@ namespace ToDoList.BLL.Interfaces
         public Task<bool> Edit(int id, DAL.Entities.Task newTask, string userId);
 
         public Task<bool> Complete(int id);
-
 
         public Task<bool> Assign(int taskId, string userId);
     }

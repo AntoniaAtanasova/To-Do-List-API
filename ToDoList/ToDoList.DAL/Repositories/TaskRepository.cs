@@ -56,7 +56,7 @@ namespace ToDoList.DAL.Repositories
             return true;
         }
 
-        public async Task<List<Entities.Task>> GetMy(Entities.User loggedIn)
+        public async Task<List<Entities.Task>> GetAllMy(Entities.User loggedIn)
         {
             return await _databaseContext.Tasks.Where(t => t.Users.Contains(loggedIn)).ToListAsync();
         }
@@ -66,20 +66,20 @@ namespace ToDoList.DAL.Repositories
             return await _databaseContext.Tasks.FirstOrDefaultAsync(t => t.Id == taskId);
         }
 
-        public async Task<List<Entities.Task>> GetAll()
+        public async Task<List<Entities.Task>> GetAllForList(int listId)
         {
-            return await _databaseContext.Tasks.ToListAsync();
+            return await _databaseContext.Tasks.Where(t => t.ToDoListId == listId).ToListAsync();
         }
 
         public async Task<List<Entities.Task>> GetMyForDate(Entities.User loggedIn, DateTime date)
         {
-            var tasks = await GetMy(loggedIn);
+            var tasks = await GetAllMy(loggedIn);
             return tasks.Where(t => t.Date == date).ToList();
         }
 
         public async Task<bool> IsTaskNameTaken(string title, Entities.User loggedIn)
         {
-            var tasks = await GetMy(loggedIn);
+            var tasks = await GetAllMy(loggedIn);
 
             return tasks.Any(t => t.Title == title);
         }
