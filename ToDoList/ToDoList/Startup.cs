@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -19,6 +20,8 @@ using ToDoList.DAL.Repositories.Interfaces;
 using ToDoList.DAL.Seeding;
 using ToDoList.Web;
 using ToDoList.Web.Authentication;
+using ToDoList.Web.Authorization.Handlers;
+using ToDoList.Web.Authorization.Requirements;
 
 namespace ToDoList
 {
@@ -87,6 +90,7 @@ namespace ToDoList
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IToDoListService, ToDoListService>();
             services.AddTransient<ITaskService, TaskService>();
+            services.AddTransient<IAuthorizationHandler, AdminOrListCreatorHandler>();
 
             services.AddHttpClient(Constants.HolidayApiClientName, c => c.BaseAddress = new Uri(Configuration["HolidaysApiUrl"]));
 
@@ -101,7 +105,11 @@ namespace ToDoList
             builder.AddResourceOwnerValidator<PasswordValidator>();
 
             services
-                .AddAuthorization()
+                .AddAuthorization(options =>
+                {
+                    options.AddPolicy("ListCreator", policy =>
+                    policy.Requirements.Add(new AdminOrListCreatorRequirement()));
+                })
                 .AddAuthentication(options =>
                 {
                     options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;

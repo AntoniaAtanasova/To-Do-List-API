@@ -58,7 +58,11 @@ namespace ToDoList.DAL.Repositories
 
         public async Task<List<Entities.Task>> GetAllMy(Entities.User loggedIn)
         {
-            return await _databaseContext.Tasks.Where(t => t.Users.Contains(loggedIn)).ToListAsync();
+            var myTasks = await _databaseContext.Tasks.Where(t => t.CreatedBy == loggedIn.Id).ToListAsync();
+            var assignedTasks = await _databaseContext.Tasks.Where(t => t.Users.Contains(loggedIn)).ToListAsync();
+
+            var allMy = myTasks.Concat(assignedTasks).ToList();
+            return allMy;
         }
 
         public async Task<Entities.Task> GetById(int taskId)

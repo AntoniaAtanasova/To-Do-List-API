@@ -58,7 +58,11 @@ namespace ToDoList.DAL.Repositories
 
         public async Task<List<Entities.ToDoList>> GetMy(User loggedIn)
         {
-            return await _databaseContext.ToDoLists.Where(l => l.Users.Contains(loggedIn)).ToListAsync();
+            var myLists = await _databaseContext.ToDoLists.Where(l => l.CreatedBy == loggedIn.Id).ToListAsync();
+            var sharedLists = await _databaseContext.ToDoLists.Where(l => l.Users.Contains(loggedIn)).ToListAsync();
+
+            var allMy = myLists.Concat(sharedLists).ToList();
+            return allMy;
         }
 
         public async Task<bool> IsListNameTaken(string title, User loggedin)

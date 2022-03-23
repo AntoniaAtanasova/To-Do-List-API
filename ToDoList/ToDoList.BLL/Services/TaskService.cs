@@ -43,7 +43,7 @@ namespace ToDoList.BLL.Services
             return await _taskRepo.Complete(task);
         }
 
-        public async Task<bool> Create(DAL.Entities.Task task, User user)
+        public async Task<bool> Create(int listId, DAL.Entities.Task task, User user)
         {
             if (!await _taskRepo.IsTaskNameTaken(task.Title, user))
             {
@@ -63,6 +63,7 @@ namespace ToDoList.BLL.Services
                     task.Day = DayType.WorkDay;
                 }
 
+                task.ToDoListId = listId;
                 task.CreatedBy = user.Id;
                 task.LastModifiedBy = user.Id;
 

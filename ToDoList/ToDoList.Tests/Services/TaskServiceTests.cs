@@ -33,7 +33,7 @@ namespace ToDoList.Tests.Services
         [Fact]
         public async System.Threading.Tasks.Task Create_ShouldCallRepository_WithValidName()
         {
-            await sut.Create(validTask, validUser);
+            await sut.Create(validList.Id, validTask, validUser);
 
             taskRepoMock.Verify(mock => mock.Create(It.Is<Task>(l => l.Id == 1)),
                 Times.Once);
@@ -42,7 +42,7 @@ namespace ToDoList.Tests.Services
         [Fact]
         public async System.Threading.Tasks.Task Create_ShouldThrowException_WithTakenName()
         {
-            await Assert.ThrowsAsync<ToDoListException>(() => sut.Create(invalidNameTask, validUser));
+            await Assert.ThrowsAsync<ToDoListException>(() => sut.Create(validList.Id, invalidNameTask, validUser));
         }
 
         [Fact]

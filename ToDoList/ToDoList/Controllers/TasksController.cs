@@ -26,6 +26,7 @@ namespace ToDoList.Web.Controllers
             _mapper = mapper;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet("{id}")]
         public async Task<ActionResult<TaskResponseDTO>> Get(int id)
         {
@@ -35,7 +36,8 @@ namespace ToDoList.Web.Controllers
         }
 
         [HttpGet]
-        [Route("listId")]
+        [Route("AllForList/{listId}")]
+        [Authorize(Policy = "ListCreator")]
         public async Task<IEnumerable<TaskResponseDTO>> GetAllForList(int listId)
         {
             var tasks = await _taskService.GetAllForList(listId);
@@ -55,7 +57,9 @@ namespace ToDoList.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post(TaskRequestDTO task)
+        [Route("{listId}")]
+        [Authorize(Policy = "ListCreator")]
+        public async Task<ActionResult> Post(int listId, TaskRequestDTO task)
         {
             if (!ModelState.IsValid)
             {
@@ -64,13 +68,14 @@ namespace ToDoList.Web.Controllers
 
             User loggedInUser = await _userService.GetCurrentUser(User);
 
-            await _taskService.Create(_mapper.Map<TaskRequestDTO, DAL.Entities.Task>(task), loggedInUser);
+            await _taskService.Create(listId, _mapper.Map<TaskRequestDTO, DAL.Entities.Task>(task), loggedInUser);
 
             return Ok();
         }
 
         [HttpPost]
         [Route("Assign/{taskId}/{userId}")]
+        [Authorize(Policy = "ListCreator")]
         public async Task<ActionResult> Assign(int taskId, string userId)
         {
             await _taskService.Assign(taskId, userId);
@@ -79,16 +84,18 @@ namespace ToDoList.Web.Controllers
         }
 
         [HttpPatch]
-        [Route("Complete/{id}")]
-        public async Task<ActionResult> Complete(int id)
+        [Route("Complete/{taskId}")]
+        [Authorize(Policy = "ListCreator")]
+        public async Task<ActionResult> Complete(int taskId)
         {
-            await _taskService.Complete(id);
+            await _taskService.Complete(taskId);
 
             return Ok();
         }
 
-        [HttpPut("{id}")]
-        public async Task<ActionResult> Edit(int id, TaskRequestDTO task)
+        [HttpPut("{taskId}")]
+        [Authorize(Policy = "ListCreator")]
+        public async Task<ActionResult> Edit(int taskId, TaskRequestDTO task)
         {
             if (!ModelState.IsValid)
             {
@@ -97,15 +104,16 @@ namespace ToDoList.Web.Controllers
 
             User loggedInUser = await _userService.GetCurrentUser(User);
 
-            await _taskService.Edit(id, _mapper.Map<TaskRequestDTO, DAL.Entities.Task>(task), loggedInUser.Id);
+            await _taskService.Edit(taskId, _mapper.Map<TaskRequestDTO, DAL.Entities.Task>(task), loggedInUser.Id);
 
             return Ok();
         }
 
-        [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(int id)
+        [HttpDelete("{taskId}")]
+        [Authorize(Policy = "ListCreator")]
+        public async Task<ActionResult> Delete(int taskId)
         {
-            await _taskService.Delete(id);
+            await _taskService.Delete(taskId);
 
             return Ok();
         }

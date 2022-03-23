@@ -15,7 +15,7 @@ namespace ToDoList.BLL.Interfaces
 
         public Task<DAL.Entities.Task> GetById(int id);
 
-        public Task<bool> Create(DAL.Entities.Task task, User user);
+        public Task<bool> Create(int listId, DAL.Entities.Task task, User user);
 
         public Task<bool> Delete(int id);
 

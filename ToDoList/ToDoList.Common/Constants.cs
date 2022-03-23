@@ -15,6 +15,7 @@
         public const string UserRoleNotValid = "User role not valid!";
         public const string EmailAlreadyInUse = "The email address you want to register is already taken!";
         public const string ListTitleTaken = "List title {0} not available!";
+        public const string NotCreator = "You are not the creator of list {0} and you cannot execute this action!";
         public const string ListNotFound = "To-do list not found!";
         public const string TaskTitleTaken = "Task title {0} not available!";
         public const string TaskAlreadyAssigned = "Task {0} is already assigned!";

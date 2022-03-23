@@ -26,6 +26,7 @@ namespace ToDoList.Web.Controllers
             _mapper = mapper;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet("{id}")]
         public async Task<ActionResult<ListResponseDTO>> Get(int id)
         {
@@ -34,6 +35,7 @@ namespace ToDoList.Web.Controllers
             return _mapper.Map<ListResponseDTO>(list);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IEnumerable<ListResponseDTO>> Get()
         {
@@ -70,6 +72,7 @@ namespace ToDoList.Web.Controllers
 
         [HttpPost]
         [Route("Share/{listId}/{userId}")]
+        [Authorize(Policy = "ListCreator")]
         public async Task<ActionResult> Share(int listId, string userId)
         {
             await _toDoListService.Share(listId, userId);
@@ -77,8 +80,9 @@ namespace ToDoList.Web.Controllers
             return Ok();
         }
 
-        [HttpPut("{id}")]
-        public async Task<ActionResult> Edit(int id, ListRequestDTO list)
+        [HttpPut("{listId}")]
+        [Authorize(Policy = "ListCreator")]
+        public async Task<ActionResult> Edit(int listId, ListRequestDTO list)
         {
             if (!ModelState.IsValid)
             {
@@ -87,15 +91,16 @@ namespace ToDoList.Web.Controllers
 
             User loggedInUser = await _userService.GetCurrentUser(User);
 
-            await _toDoListService.Edit(id, _mapper.Map<ListRequestDTO, DAL.Entities.ToDoList>(list), loggedInUser.Id);
+            await _toDoListService.Edit(listId, _mapper.Map<ListRequestDTO, DAL.Entities.ToDoList>(list), loggedInUser.Id);
 
             return Ok();
         }
 
-        [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(int id)
+        [HttpDelete("{listId}")]
+        [Authorize(Policy = "ListCreator")]
+        public async Task<ActionResult> Delete(int listId)
         {
-            await _toDoListService.Delete(id);
+            await _toDoListService.Delete(listId);
 
             return Ok();
         }
