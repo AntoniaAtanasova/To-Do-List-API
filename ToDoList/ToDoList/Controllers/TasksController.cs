@@ -85,7 +85,7 @@ namespace ToDoList.Web.Controllers
 
         [HttpPatch]
         [Route("Complete/{taskId}")]
-        [Authorize(Policy = "ListCreator")]
+        [Authorize(Policy = "TaskCreatorOrAssigned")]
         public async Task<ActionResult> Complete(int taskId)
         {
             await _taskService.Complete(taskId);
