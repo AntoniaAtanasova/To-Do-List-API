@@ -26,11 +26,11 @@ namespace ToDoList.Web.Controllers
             _mapper = mapper;
         }
 
-        [Authorize(Roles = "Admin")]
-        [HttpGet("{id}")]
-        public async Task<ActionResult<TaskResponseDTO>> Get(int id)
+        [HttpGet("{taskId}")]
+        [Authorize(Policy = "TaskCreatorOrAssigned")]
+        public async Task<ActionResult<TaskResponseDTO>> Get(int taskId)
         {
-            var task = await _taskService.GetById(id);
+            var task = await _taskService.GetById(taskId);
 
             return _mapper.Map<TaskResponseDTO>(task);
         }
