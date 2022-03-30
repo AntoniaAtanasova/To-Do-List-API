@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using ToDoList.BLL.Interfaces;
@@ -52,6 +53,17 @@ namespace ToDoList.Web.Controllers
             User loggedInUser = await _userService.GetCurrentUser(User);
 
             var tasks = await _taskService.GetAllMy(loggedInUser);
+
+            return _mapper.Map<IEnumerable<TaskResponseDTO>>(tasks);
+        }
+
+        [HttpGet]
+        [Route("MyForDate")]
+        public async Task<IEnumerable<TaskResponseDTO>> GetMyForDate(DateTime date)
+        {
+            User loggedInUser = await _userService.GetCurrentUser(User);
+
+            var tasks = await _taskService.GetMyForDate(loggedInUser, date.Date);
 
             return _mapper.Map<IEnumerable<TaskResponseDTO>>(tasks);
         }
