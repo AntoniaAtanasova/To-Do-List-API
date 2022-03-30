@@ -20,5 +20,6 @@
         public const string TaskTitleTaken = "Task title {0} not available!";
         public const string TaskAlreadyAssigned = "Task {0} is already assigned!";
         public const string TaskNotFound = "Task not found!";
+        public const string NotTaskCreatorOrAssignedTo = "You are not the creator of task {0} nor it is assigned to you!";
     }
 }

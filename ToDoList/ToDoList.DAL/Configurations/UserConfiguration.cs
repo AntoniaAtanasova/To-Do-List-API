@@ -21,7 +21,6 @@ namespace ToDoList.DAL.Configurations
                 .UsingEntity<AssignedTask>
                            (at => at.HasOne<Task>().WithMany(),
                             at => at.HasOne<User>().WithMany());
-
         }
     }
 }

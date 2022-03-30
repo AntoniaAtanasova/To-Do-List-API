@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using ToDoList.BLL.Interfaces;
@@ -26,11 +27,11 @@ namespace ToDoList.Web.Controllers
             _mapper = mapper;
         }
 
-        [Authorize(Roles = "Admin")]
-        [HttpGet("{id}")]
-        public async Task<ActionResult<TaskResponseDTO>> Get(int id)
+        [HttpGet("{taskId}")]
+        [Authorize(Policy = "TaskCreatorOrAssigned")]
+        public async Task<ActionResult<TaskResponseDTO>> Get(int taskId)
         {
-            var task = await _taskService.GetById(id);
+            var task = await _taskService.GetById(taskId);
 
             return _mapper.Map<TaskResponseDTO>(task);
         }
@@ -52,6 +53,17 @@ namespace ToDoList.Web.Controllers
             User loggedInUser = await _userService.GetCurrentUser(User);
 
             var tasks = await _taskService.GetAllMy(loggedInUser);
+
+            return _mapper.Map<IEnumerable<TaskResponseDTO>>(tasks);
+        }
+
+        [HttpGet]
+        [Route("MyForDate")]
+        public async Task<IEnumerable<TaskResponseDTO>> GetMyForDate(DateTime date)
+        {
+            User loggedInUser = await _userService.GetCurrentUser(User);
+
+            var tasks = await _taskService.GetMyForDate(loggedInUser, date.Date);
 
             return _mapper.Map<IEnumerable<TaskResponseDTO>>(tasks);
         }
@@ -85,7 +97,7 @@ namespace ToDoList.Web.Controllers
 
         [HttpPatch]
         [Route("Complete/{taskId}")]
-        [Authorize(Policy = "ListCreator")]
+        [Authorize(Policy = "TaskCreatorOrAssigned")]
         public async Task<ActionResult> Complete(int taskId)
         {
             await _taskService.Complete(taskId);

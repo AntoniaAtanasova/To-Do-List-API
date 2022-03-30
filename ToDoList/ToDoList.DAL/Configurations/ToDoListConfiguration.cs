@@ -17,7 +17,6 @@ namespace ToDoList.DAL.Configurations
                      .WithMany()
                      .HasForeignKey(u => u.LastModifiedBy)
                      .OnDelete(DeleteBehavior.ClientCascade);
-
         }
     }
 }

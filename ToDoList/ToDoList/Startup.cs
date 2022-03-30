@@ -91,6 +91,7 @@ namespace ToDoList
             services.AddTransient<IToDoListService, ToDoListService>();
             services.AddTransient<ITaskService, TaskService>();
             services.AddTransient<IAuthorizationHandler, AdminOrListCreatorHandler>();
+            services.AddTransient<IAuthorizationHandler, AdminOrTaskCreatorOrAssignedToHandler>();
 
             services.AddHttpClient(Constants.HolidayApiClientName, c => c.BaseAddress = new Uri(Configuration["HolidaysApiUrl"]));
 
@@ -109,6 +110,8 @@ namespace ToDoList
                 {
                     options.AddPolicy("ListCreator", policy =>
                     policy.Requirements.Add(new AdminOrListCreatorRequirement()));
+                    options.AddPolicy("TaskCreatorOrAssigned", policy =>
+                    policy.Requirements.Add(new AdminOrTaskCreatorOrAssignedToRequirement()));
                 })
                 .AddAuthentication(options =>
                 {

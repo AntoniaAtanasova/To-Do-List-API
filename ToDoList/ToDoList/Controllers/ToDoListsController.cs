@@ -26,8 +26,8 @@ namespace ToDoList.Web.Controllers
             _mapper = mapper;
         }
 
-        [Authorize(Roles = "Admin")]
         [HttpGet("{id}")]
+        [Authorize(Policy = "ListCreator")]
         public async Task<ActionResult<ListResponseDTO>> Get(int id)
         {
             var list = await _toDoListService.GetById(id);
@@ -35,8 +35,8 @@ namespace ToDoList.Web.Controllers
             return _mapper.Map<ListResponseDTO>(list);
         }
 
-        [Authorize(Roles = "Admin")]
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<IEnumerable<ListResponseDTO>> Get()
         {
             var lists = await _toDoListService.GetAll();

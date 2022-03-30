@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
-using System;
 using System.Threading.Tasks;
 using ToDoList.BLL.Exceptions;
 using ToDoList.BLL.Interfaces;
@@ -24,6 +23,7 @@ namespace ToDoList.Web.Authorization.Handlers
             _taskService = taskService;
             _httpContextAccessor = httpContextAccessor;
         }
+
         protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, AdminOrListCreatorRequirement requirement)
         {
             var loggedUser = await _userService.GetCurrentUser(context.User);
