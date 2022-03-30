@@ -21,6 +21,7 @@ namespace ToDoList.Web.Authorization.Handlers
             _taskService = taskService;
             _httpContextAccessor = httpContextAccessor;
         }
+
         protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, AdminOrTaskCreatorOrAssignedToRequirement requirement)
         {
             var loggedUser = await _userService.GetCurrentUser(context.User);
